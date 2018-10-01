@@ -1,0 +1,170 @@
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='css/bootstrap.min.css'>
+    <script src='js/angular.js'></script>
+    <script src='js/ui-bootstrap-tpls-1.1.1.min.js'></script>
+    <script src='cjs/product.js'></script>
+    <link href="css/main.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="tableExport.js"></script>
+    <script src="cjs/jquery.base64.js"></script>
+    <script src="cjs/sprintf.js"></script>
+    <script src="cjs/jspdf.js"></script>
+    <script src="cjs/base64.js"></script>
+
+
+    <style type='text/css'>
+        #footer {
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+            height: 20px;
+            background: #E6E4E4;
+        }
+
+        .input-group .icon-addon .form-control {
+            border-radius: 0;
+        }
+
+        .icon-addon {
+            position: relative;
+            color: #555;
+            display: block;
+        }
+
+        .icon-addon:after,
+        .icon-addon:before {
+            display: table;
+            content: ' ';
+        }
+
+        .icon-addon:after {
+            clear: both;
+        }
+
+        .icon-addon.addon-md .glyphicon,
+        .icon-addon .glyphicon,
+        .icon-addon.addon-md .fa,
+        .icon-addon .fa {
+            position: absolute;
+            z-index: 2;
+            left: 10px;
+            font-size: 14px;
+            margin-left: -2.5px;
+            text-align: center;
+            padding: 10px 0;
+            top: 1px
+        }
+
+        .icon-addon.addon-lg .form-control {
+            line-height: 1.33;
+            height: 30px;
+            font-size: 13px;
+            padding: 10px 16px 10px 40px;
+        }
+
+        .icon-addon.addon-lg .fa,
+        .icon-addon.addon-lg .glyphicon {
+            font-size: 13px;
+            margin-left: 0;
+            left: 11px;
+            top: -1px;
+            color: #F87531;
+        }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('images/page-loader.gif') 50% 50% no-repeat rgb(249, 249, 249);
+        }
+    </style>
+</head>
+
+<body class='theme-red' ng-app='ProductmasterApp' ng-controller='ProductmasterController' onpageshow='if(event.persisted) noBack();'
+    onunload=''>
+    <div class="wrapper">
+        <div class="container">
+            <!--add-->
+            <button style="background:#F87531;color:white;font-size:13px" type="button" class="btn btn-info btn-lg"
+                data-toggle="modal" data-target="#myModalAdd">Add Kitchen</button>
+            <div class="modal fade" tabindex="-1" id="myModalAdd" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="modal-header">
+                                <button type="button" class="close" ng-click="cleartext()" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" style="text-align:center">Add Product</h4>
+                            </div>
+                            <form name="add_product" class="form-horizontal">
+                                <div class='row'>
+                                    <div class='col-lg-3'>
+                                        <label>product name</label>
+                                    </div>
+                                    <div class='col-lg-8'>
+                                        <input class='form-control' type='text' ng-model='product.productname'>
+                                    </div>
+                                </div>
+                                <div ng-init="listcitymaster()">
+                                    <!-- person as person.name for person in people -->
+                                    <select ng-model="product.id" ng-options="person.categotyname for person in listcitymasterdata">
+                                    </select>
+                                </div>
+
+
+
+                                <div class="modal-footer">
+                                    <button type="button" style="background:#AAAAAA;" class="btn" value="submit"
+                                        ng-click="Productadd()" data-dismiss="modal" ng-disabled="add_country.$invalid"><b>Submit</b></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end add-->
+
+            <div class='row'>
+                <div class='table-responsive'>
+                    <table style='font-size:14px;' class='table table-striped table-bordered export-table'>
+                        <thead style="background-color:#ff6666">
+                            <th>ID</th>
+                            <th>category Name</th>
+
+                            <th style='text-align:center;'>
+                                <b style='color:white'>Action</b>
+                            </th>
+                        </thead>
+                        <tbody ng-init='listcityproduct()'>
+                            <tr ng-repeat='kitchen in listproduct'>
+                                <td style='text-align:center;'>{{kitchen.id.categotyname}}</td>
+                                <td style='text-align:center;'>{{kitchen.productname}}</td>
+                                <td style='text-align:center;'><a href='' ng-click='getcitymaster(kitchen.categotyname)'
+                                        data-toggle='modal' data-target='#myModalEdit'>{{kitchen.name}}</a></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class='col-md-12' ng-show='filteredItems == 0'>
+                    <div class='col-md-12'>
+                        <h4>No Data found</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
